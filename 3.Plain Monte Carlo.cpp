@@ -96,6 +96,5 @@ int main(int argc, const char * argv[]) {
     cout<<"standard error:        "<<plain_MC[1]<<endl;
     cout<<"actual error:          "<<plain_MC[2]<<endl;
     
-    
     return 0;
 }
