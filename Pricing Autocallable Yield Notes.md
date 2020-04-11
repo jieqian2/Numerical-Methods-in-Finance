@@ -4,7 +4,8 @@ Autocallable Yield Notes Pricing
 Description
 ----
  UBS AG Airbag Autocallable Yield Notes (the “Notes”) are unsubordinated, unsecured debt obligations issued by UBS AG (“UBS” or the “issuer”) linked to the common stock of a specific company (the “underlying asset”). The issue price of each Note will be $1,000. UBS will pay you a coupon on each coupon payment date regardless of the performance of the underlying asset unless the Notes were previously subject to an automatic call. If the closing level of the underlying asset is equal to or greater than the initial level on any observation date prior to the final valuation date, UBS will automatically call the Notes (an “automatic call”) and pay you a cash payment per Note equal to your principal amount plus the coupon otherwise due on the applicable coupon payment date following such observation date ( the “call settlement date”), and no further payments will be owed to you under the Notes. If the Notes are not subject to an automatic call and the closing level of the underlying asset on the final valuation date (the “final level”) is equal to or greater than the conversion level, UBS will pay you a cash payment per Note equal to the principal amount. If, however, the Notes are not subject to an automatic call and the final level is less than the conversion level, UBS will deliver to you a number of shares of the underlying asset per Note equal to the quotient of (i) the principal amount divided by (ii) the conversion level (the “share delivery amount”), which is expected to be worth less than your principal amount and, in extreme situations, you could lose all of your initial investment. Any fractional share included in the share delivery amount will be paid in cash at an amount equal to the product of the fractional share and the final level. 
- see: https://www.sec.gov/Archives/edgar/data/1114446/000091412119003603/ub54526835-424b2.htm
+ 
+Detailed description, see: https://www.sec.gov/Archives/edgar/data/1114446/000091412119003603/ub54526835-424b2.htm
 
 Method
 ----
@@ -43,7 +44,11 @@ vector<vector<double>> callstore;
 vector<int> dividend_date;
 vector<int> autocall_date;
 
+
+
+//change the initial condition here;
 void initialize(){
+    //user-change parameters
     initial_stock_price = 37.25;
     expiration_time = 1.0;
     risk_free_rate = 0.01755;
@@ -52,6 +57,7 @@ void initialize(){
     face_value = 1000.0;
     no_of_divisions = 1200;
     
+    //auto-initialize all other parameters
     vector<double> tmp;
     tmp.resize(2*no_of_divisions+2, -1.0);
     callstore.resize(2*no_of_divisions+2, tmp);
