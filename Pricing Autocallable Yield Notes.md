@@ -9,6 +9,8 @@ Detailed description, see: https://www.sec.gov/Archives/edgar/data/1114446/00009
 
 Method
 ----
+# 1.Binomial Tree
+----
 Use a binomial tree to value a slightly simplified version of this product for General Motors:
 
 * Face value: $1000
@@ -22,6 +24,9 @@ Use a binomial tree to value a slightly simplified version of this product for G
 * Proportional Dividends: 4.195% (annual figure) quarterly at t = 2/12, 5/12, 8/12, 11/12, so assume 0.25 x 4.195% is paid each quarter.
 
 * Initial stock price = 37.25, T = 1, r = 1.755%, volitatity =  26.125%
+
+# 2.Monte Carlo Simulation
+----
 
 Code
 ----
