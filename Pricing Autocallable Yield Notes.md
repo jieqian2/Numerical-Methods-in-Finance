@@ -1,40 +1,26 @@
 Autocallable Yield Notes Pricing
 ====
  
-#Description
+Description
 ----
  UBS AG Airbag Autocallable Yield Notes (the “Notes”) are unsubordinated, unsecured debt obligations issued by UBS AG (“UBS” or the “issuer”) linked to the common stock of a specific company (the “underlying asset”). The issue price of each Note will be $1,000. UBS will pay you a coupon on each coupon payment date regardless of the performance of the underlying asset unless the Notes were previously subject to an automatic call. If the closing level of the underlying asset is equal to or greater than the initial level on any observation date prior to the final valuation date, UBS will automatically call the Notes (an “automatic call”) and pay you a cash payment per Note equal to your principal amount plus the coupon otherwise due on the applicable coupon payment date following such observation date ( the “call settlement date”), and no further payments will be owed to you under the Notes. If the Notes are not subject to an automatic call and the closing level of the underlying asset on the final valuation date (the “final level”) is equal to or greater than the conversion level, UBS will pay you a cash payment per Note equal to the principal amount. If, however, the Notes are not subject to an automatic call and the final level is less than the conversion level, UBS will deliver to you a number of shares of the underlying asset per Note equal to the quotient of (i) the principal amount divided by (ii) the conversion level (the “share delivery amount”), which is expected to be worth less than your principal amount and, in extreme situations, you could lose all of your initial investment. Any fractional share included in the share delivery amount will be paid in cash at an amount equal to the product of the fractional share and the final level. 
  see: https://www.sec.gov/Archives/edgar/data/1114446/000091412119003603/ub54526835-424b2.htm
 
-#Method
+Method
 ----
 Use a binomial tree to value a slightly simplified version of this product for General Motors:
 
 * Face value: $1000
 
-* Payoff at maturity: 
+* Payoff at maturity: If the stock price is greater than or equal to $32.78 then you receive the face value plus the final coupon payment. If the stock price is below $32.78 you receive a cash amount equivalent to 1000/32.78 = 30.5064 stocks plus the final coupon payment.
 
-If the stock price is greater than or equal to $32.78 then you receive the face value plus the final coupon payment. If the stock price is below $32.78 you receive a cash amount equivalent to 1000/32.78 = 30.5064 stocks plus the final coupon payment.
+* Autocall feature: If the stock price is greater than or equal to the initial price on any of the observation dates t = 1/4, 1/2, 3/4 then the notes are immediately called for the face value + coupon.
 
-* Autocall feature: 
+* Coupons: There is a monthly coupon of 8% (this is an annual figure) of the face value, payable at t = 1/12, 2/12 etc. 
 
-If the stock price is greater than or equal to the initial price on any of the observation dates t = 1/4, 1/2, 3/4 then the notes are immediately called for the face value + coupon.
+* Proportional Dividends: 4.195% (annual figure) quarterly at t = 2/12, 5/12, 8/12, 11/12, so assume 0.25 x 4.195% is paid each quarter.
 
-* Coupons: 
-
-there is a monthly coupon of 8% (this is an annual figure) of the face value, payable at t = 1/12, 2/12 etc. 
-
-* Proportional Dividends: 
-
-4.195% (annual figure) quarterly at t = 2/12, 5/12, 8/12, 11/12, so assume 0.25 x 4.195% is paid each quarter.
-
-* Initial stock price = 37.25
-
-T = 1
-
-r = 1.755%
-
-volitatity =  26.125%
+* Initial stock price = 37.25, T = 1, r = 1.755%, volitatity =  26.125%
 
 
 ```cpp
