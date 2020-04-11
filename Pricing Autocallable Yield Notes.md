@@ -39,6 +39,8 @@ Code
 #include <cstdlib>
 #include <algorithm>
 #include <vector>
+#include <random>
+#include <chrono>
 
 using namespace std;
 
@@ -52,6 +54,15 @@ vector<vector<double>> callstore;
 vector<int> dividend_date;
 vector<int> autocall_date;
 vector<int> coupon_date;
+
+float delta_T, delta_R, delta_SD;
+
+unsigned seed = chrono::system_clock::now().time_since_epoch().count();
+default_random_engine generator (seed);
+double normal(){
+    normal_distribution<double> distribution (0.0,1.0);
+    return distribution(generator);
+}
 
 //change the initial condition here;
 void initialize(){
@@ -95,7 +106,7 @@ void initial_parameters(){
     downtick_prob = 1.0 - uptick_prob;
 }
 
-double autocallable_yield_note(int k, int i, double current_stock_price, double dividend, double coupon){
+double autocallable_yield_note_binomial(int k, int i, double current_stock_price, double dividend, double coupon){
     if(callstore[k][no_of_divisions+i] != -1.0)
         return callstore[k][no_of_divisions+i];
     
@@ -140,19 +151,69 @@ double autocallable_yield_note(int k, int i, double current_stock_price, double 
     }
     
     callstore[k][no_of_divisions+i] =
-    (uptick_prob * autocallable_yield_note(k+1,i+1,current_stock_price*up_factor, dividend, coupon)
-     +downtick_prob * autocallable_yield_note(k+1,i-1,current_stock_price*down_factor, dividend, coupon))/R;
+    (uptick_prob * autocallable_yield_note_binomial(k+1,i+1,current_stock_price*up_factor, dividend, coupon)
+     +downtick_prob * autocallable_yield_note_binomial(k+1,i-1,current_stock_price*down_factor, dividend, coupon))/R;
     
     return callstore[k][no_of_divisions+i];
 }
 
+double autocallable_yield_MC(int no_of_simulations){
+    delta_T = (float) expiration_time/12.0;
+    delta_R = (risk_free_rate - 0.5*pow(volatility,2))*delta_T;
+    delta_SD = volatility*sqrt(delta_T);
+    
+    double sum = 0.0;
+    for(int i=0; i<no_of_simulations; i++){
+        float current_stock_price = initial_stock_price;
+        double coupon = 0.0;
+        double dividends = 0.0;
+        double note_price = 0.0;
+        
+        for(int j=1; j<=12; j++){
+            current_stock_price = current_stock_price*exp(delta_R + delta_SD*normal());
+            coupon += face_value*monthly_coupon_rate*exp(-risk_free_rate* (double) j/12.0);
+            if(j==2 || j==5 || j==8 || j==11){
+                dividends += current_stock_price*period_dividend_rate*exp(-risk_free_rate* (double) j/12.0);
+            }
+            
+            if(j==3 || j==6 || j==9){
+                if(current_stock_price >= initial_stock_price){
+                    note_price += face_value*exp(-risk_free_rate* (double) j/12.0) + dividends + coupon;
+                    break;
+                }
+            }
+            
+            if(j==12){
+                if(current_stock_price >= 32.78){
+                    note_price += face_value*exp(-risk_free_rate* (double) j/12.0) + dividends + coupon;
+                    break;
+                }else{
+                    note_price += 30.5064*current_stock_price*exp(-risk_free_rate* (double) j/12.0) + dividends + coupon;
+                    break;
+                }
+            }
+        }
+        sum += note_price;
+    }
+    return sum/no_of_simulations;
+}
 
 int main(int argc, const char * argv[]) {
     initialize();
     initial_parameters();
-    double note_price = autocallable_yield_note(0, 0, initial_stock_price, 0, 0);
-    cout<<"Value of Autocallable Yield Notes is "<<note_price<<endl;
+    double note_price = autocallable_yield_note_binomial(0, 0, initial_stock_price, 0, 0);
+    cout<<"Value of Autocallable Yield Notes(binomial tree) is "<<note_price<<endl;
+    
+    int no_of_simulations = 100000;
+    double MC_price = autocallable_yield_MC(no_of_simulations);
+    cout<<"Value of Autocallable Yield Notes(MC simulation) is "<<MC_price<<endl;
     return 0;
 }
+```
 
+Result
+----
 
+Value of Autocallable Yield Notes(binomial tree) is 996.992
+
+Value of Autocallable Yield Notes(MC simulation) is 997.839
