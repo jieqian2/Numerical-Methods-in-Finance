@@ -23,6 +23,8 @@ Use a binomial tree to value a slightly simplified version of this product for G
 
 * Initial stock price = 37.25, T = 1, r = 1.755%, volitatity =  26.125%
 
+Code
+----
 
 ```cpp
 #include <iostream>
@@ -36,15 +38,15 @@ Use a binomial tree to value a slightly simplified version of this product for G
 using namespace std;
 
 double up_factor, down_factor, uptick_prob, downtick_prob, risk_free_rate, strike_price;
-double initial_stock_price, expiration_time, dividends_rate, volatility, R;
-double period_dividend_rate, face_value;
+double initial_stock_price, expiration_time, dividends_rate, volatility;
+double period_dividend_rate, coupon_rate, monthly_coupon_rate, face_value;
+float R;
 int no_of_divisions;
 
 vector<vector<double>> callstore;
 vector<int> dividend_date;
 vector<int> autocall_date;
-
-
+vector<int> coupon_date;
 
 //change the initial condition here;
 void initialize(){
@@ -55,8 +57,11 @@ void initialize(){
     volatility = 0.2615;
     dividends_rate = 0.04195;
     face_value = 1000.0;
-    no_of_divisions = 1200;
-    
+    coupon_rate = 0.08;
+    no_of_divisions = 100;
+}
+
+void initial_parameters(){
     //auto-initialize all other parameters
     vector<double> tmp;
     tmp.resize(2*no_of_divisions+2, -1.0);
@@ -73,6 +78,11 @@ void initialize(){
     autocall_date.push_back((int) (no_of_divisions * (2.0/4.0)));
     autocall_date.push_back((int) (no_of_divisions * (3.0/4.0)));
     
+    for(int i=1; i<=12; i++){
+        coupon_date.push_back((int) (no_of_divisions * (i/12.0)));
+    }
+    monthly_coupon_rate = coupon_rate/12.0;
+    
     up_factor = exp(volatility*sqrt((expiration_time)/((float) no_of_divisions)));
     down_factor = 1.0/up_factor;
     R = exp(risk_free_rate*expiration_time/((float) no_of_divisions));
@@ -80,43 +90,53 @@ void initialize(){
     downtick_prob = 1.0 - uptick_prob;
 }
 
-double autocallable_yield_note(int k, int i, double current_stock_price, double coupon){
+double autocallable_yield_note(int k, int i, double current_stock_price, double dividend, double coupon){
     if(callstore[k][no_of_divisions+i] != -1.0)
         return callstore[k][no_of_divisions+i];
     
-    //check if current step is the dividend date;
+    //check if current step is the monthly coupon payment date
     //if so, add coupon
-    for(int i=0; i<dividend_date.size(); i++){
-        if(k == dividend_date[i]){
-            coupon += period_dividend_rate*face_value;
+    for(int j=0; j<coupon_date.size(); j++){
+        if(k == coupon_date[j]){
+            coupon += monthly_coupon_rate
+                      *face_value
+                      *exp(-risk_free_rate*coupon_date[j]/no_of_divisions);
+        }
+    }
+        
+    //check if current step is the dividend date;
+    //if so, add dividend
+    for(int j=0; j<dividend_date.size(); j++){
+        if(k == dividend_date[j]){
+            dividend += period_dividend_rate
+                        *current_stock_price
+                        *exp( -risk_free_rate*dividend_date[j]/no_of_divisions);
         }
     }
     
     //check if current step is the autocall date;
-    //if so, check whether satisify the call condition
-    for(int i=0; i<autocall_date.size(); i++){
-        if(k == autocall_date[i]){
+    //if so, check whether satisify the callable condition
+    for(int j=0; j<autocall_date.size(); j++){
+        if(k == autocall_date[j]){
             if(current_stock_price >= initial_stock_price){
-                return face_value+coupon;
-            }else{
-                break;
+                callstore[k][no_of_divisions+i] = face_value + dividend + coupon;
+                return callstore[k][no_of_divisions+i];
             }
         }
     }
     
     if(k == no_of_divisions){
         if(current_stock_price >= 32.78){
-            callstore[k][no_of_divisions+i] = face_value + coupon;
-            return callstore[k][no_of_divisions+i];
+            callstore[k][no_of_divisions+i] = face_value + dividend + coupon;
         }else{
-            callstore[k][no_of_divisions+i] = 30.5064*current_stock_price + coupon;
-            return callstore[k][no_of_divisions+i];
+            callstore[k][no_of_divisions+i] = 30.5064*current_stock_price+dividend+coupon;
         }
+        return callstore[k][no_of_divisions+i];
     }
     
     callstore[k][no_of_divisions+i] =
-    (uptick_prob * autocallable_yield_note(k+1,i+1,current_stock_price*up_factor, coupon)
-     +downtick_prob * autocallable_yield_note(k+1,i-1,current_stock_price*down_factor, coupon))/R;
+    (uptick_prob * autocallable_yield_note(k+1,i+1,current_stock_price*up_factor, dividend, coupon)
+     +downtick_prob * autocallable_yield_note(k+1,i-1,current_stock_price*down_factor, dividend, coupon))/R;
     
     return callstore[k][no_of_divisions+i];
 }
@@ -124,8 +144,10 @@ double autocallable_yield_note(int k, int i, double current_stock_price, double 
 
 int main(int argc, const char * argv[]) {
     initialize();
-    double note_price = autocallable_yield_note(0, 0, initial_stock_price, 0);
+    initial_parameters();
+    double note_price = autocallable_yield_note(0, 0, initial_stock_price, 0, 0);
     cout<<"Value of Autocallable Yield Notes is "<<note_price<<endl;
     return 0;
 }
+
 
