@@ -27,6 +27,9 @@ Use a binomial tree to value a slightly simplified version of this product for G
 
 ### 2.Monte Carlo Simulation
 
+Suppose the stock price follows Geometric Brownian Motion(GBM)
+
+
 
 Code
 ----
@@ -216,4 +219,4 @@ Result
 
 Value of Autocallable Yield Notes(binomial tree) is 996.992
 
-Value of Autocallable Yield Notes(MC simulation) is 997.839
+Value of Autocallable Yield Notes(MC simulation) is 996.839
