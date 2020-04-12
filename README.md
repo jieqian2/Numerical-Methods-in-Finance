@@ -1,6 +1,6 @@
 # Numerical-Methods-in-Finance
 
-This file include the code I've write for the course Numerical Method in finance.
+This file includes the code I've written for the IE525 Numerical Method in finance Spring 2020.
 
 Topic related: Explicit, Implicit, Crank-Nicolson finite difference method; Monte Carlo Simulation, Variance Reduction, Importance Sampling...
 
