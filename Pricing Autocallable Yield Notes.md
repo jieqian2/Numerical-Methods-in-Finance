@@ -27,7 +27,7 @@ Use a binomial tree to value a slightly simplified version of this product for G
 
 ### 2.Monte Carlo Simulation
 
-Suppose the stock price follows Geometric Brownian Motion(GBM(r, \sigma ^{2}))
+Suppose the stock price follows Geometric Brownian Motion(GBM), and current dividend yield of General Motors is 4.4%
 
 
 
