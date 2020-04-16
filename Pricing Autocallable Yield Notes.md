@@ -27,7 +27,7 @@ Use a binomial tree to value a slightly simplified version of this product for G
 
 ### 2.Monte Carlo Simulation
 
-Suppose the stock price follows Geometric Brownian Motion(GBM)
+Suppose the stock price follows Geometric Brownian Motion(GBM(r, \sigma ^{2}))
 
 
 
@@ -35,6 +35,14 @@ Code
 ----
 
 ```cpp
+//
+//  main.cpp
+//  Pricing Autocallable Yield Notes
+//
+//  Created by JIE QIAN on 4/10/20.
+//  Copyright © 2020 JIE QIAN. All rights reserved.
+//
+
 #include <iostream>
 #include <iomanip>
 #include <cmath>
@@ -57,6 +65,8 @@ vector<vector<double>> callstore;
 vector<int> dividend_date;
 vector<int> autocall_date;
 vector<int> coupon_date;
+//vector<double> dividend;
+//vector<double> coupon;
 
 float delta_T, delta_R, delta_SD;
 
@@ -104,7 +114,7 @@ void initial_parameters(){
     
     up_factor = exp(volatility*sqrt((expiration_time)/((float) no_of_divisions)));
     down_factor = 1.0/up_factor;
-    R = exp(risk_free_rate*expiration_time/((float) no_of_divisions));
+    R = exp((risk_free_rate)*expiration_time/((float) no_of_divisions));
     uptick_prob = (R - down_factor)/(up_factor - down_factor);
     downtick_prob = 1.0 - uptick_prob;
 }
@@ -119,7 +129,7 @@ double autocallable_yield_note_binomial(int k, int i, double current_stock_price
         if(k == coupon_date[j]){
             coupon += monthly_coupon_rate
                       *face_value
-                      *exp(-risk_free_rate*coupon_date[j]/no_of_divisions);
+                      *exp(-risk_free_rate* (double) coupon_date[j]/no_of_divisions);
         }
     }
         
@@ -129,7 +139,7 @@ double autocallable_yield_note_binomial(int k, int i, double current_stock_price
         if(k == dividend_date[j]){
             dividend += period_dividend_rate
                         *current_stock_price
-                        *exp( -risk_free_rate*dividend_date[j]/no_of_divisions);
+                        *exp( -risk_free_rate* (double) dividend_date[j]/no_of_divisions);
         }
     }
     
@@ -138,7 +148,7 @@ double autocallable_yield_note_binomial(int k, int i, double current_stock_price
     for(int j=0; j<autocall_date.size(); j++){
         if(k == autocall_date[j]){
             if(current_stock_price >= initial_stock_price){
-                callstore[k][no_of_divisions+i] = face_value + dividend + coupon;
+                callstore[k][no_of_divisions+i] = face_value * exp( -risk_free_rate * (double)  autocall_date[j]/no_of_divisions) + dividend + coupon;
                 return callstore[k][no_of_divisions+i];
             }
         }
@@ -146,24 +156,27 @@ double autocallable_yield_note_binomial(int k, int i, double current_stock_price
     
     if(k == no_of_divisions){
         if(current_stock_price >= 32.78){
-            callstore[k][no_of_divisions+i] = face_value + dividend + coupon;
+            callstore[k][no_of_divisions+i] = face_value*exp(-risk_free_rate) + dividend + coupon;
         }else{
-            callstore[k][no_of_divisions+i] = 30.5064*current_stock_price+dividend+coupon;
+            callstore[k][no_of_divisions+i] = 30.5064*current_stock_price*exp(-risk_free_rate) + dividend + coupon;
         }
         return callstore[k][no_of_divisions+i];
     }
     
     callstore[k][no_of_divisions+i] =
     (uptick_prob * autocallable_yield_note_binomial(k+1,i+1,current_stock_price*up_factor, dividend, coupon)
-     +downtick_prob * autocallable_yield_note_binomial(k+1,i-1,current_stock_price*down_factor, dividend, coupon))/R;
+     + downtick_prob * autocallable_yield_note_binomial(k+1,i-1,current_stock_price*down_factor, dividend, coupon))/R;
+    //cout<<"divi"<<dividend<<" *** "<<"coup"<<coupon<<endl;
+    
     
     return callstore[k][no_of_divisions+i];
 }
 
 double autocallable_yield_MC(int no_of_simulations){
     delta_T = (float) expiration_time/12.0;
-    delta_R = (risk_free_rate - 0.5*pow(volatility,2))*delta_T;
+    delta_R = (risk_free_rate - 0.044 - 0.5*pow(volatility,2))*delta_T;
     delta_SD = volatility*sqrt(delta_T);
+    //0.044 is General Motor's current dividend yield.
     
     double sum = 0.0;
     for(int i=0; i<no_of_simulations; i++){
@@ -196,6 +209,7 @@ double autocallable_yield_MC(int no_of_simulations){
                 }
             }
         }
+    
         sum += note_price;
     }
     return sum/no_of_simulations;
@@ -205,18 +219,19 @@ int main(int argc, const char * argv[]) {
     initialize();
     initial_parameters();
     double note_price = autocallable_yield_note_binomial(0, 0, initial_stock_price, 0, 0);
-    cout<<"Value of Autocallable Yield Notes(binomial tree) is "<<note_price<<endl;
+    cout<<"Value of Autocallable Yield Notes(by binomial tree) is "<<note_price<<endl;
     
     int no_of_simulations = 100000;
     double MC_price = autocallable_yield_MC(no_of_simulations);
-    cout<<"Value of Autocallable Yield Notes(MC simulation) is "<<MC_price<<endl;
+    cout<<"Value of Autocallable Yield Notes(by MC simulation) is "<<MC_price<<endl;
     return 0;
 }
+
 ```
 
 Result
 ----
 
-Value of Autocallable Yield Notes(binomial tree) is 996.992
+Value of Autocallable Yield Notes(binomial tree) is 987.886
 
-Value of Autocallable Yield Notes(MC simulation) is 996.839
+Value of Autocallable Yield Notes(MC simulation) is 988.854
