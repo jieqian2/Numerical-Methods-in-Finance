@@ -156,9 +156,9 @@ double autocallable_yield_note_binomial(int k, int i, double current_stock_price
     
     if(k == no_of_divisions){
         if(current_stock_price >= 32.78){
-            callstore[k][no_of_divisions+i] = face_value*exp(-risk_free_rate) + dividend + coupon;
+            callstore[k][no_of_divisions+i] = face_value*exp(-risk_free_rate*expiration_time) + dividend + coupon;
         }else{
-            callstore[k][no_of_divisions+i] = 30.5064*current_stock_price*exp(-risk_free_rate) + dividend + coupon;
+            callstore[k][no_of_divisions+i] = 30.5064*current_stock_price*exp(-risk_free_rate*expiration_time) + dividend + coupon;
         }
         return callstore[k][no_of_divisions+i];
     }
@@ -166,7 +166,6 @@ double autocallable_yield_note_binomial(int k, int i, double current_stock_price
     callstore[k][no_of_divisions+i] =
     (uptick_prob * autocallable_yield_note_binomial(k+1,i+1,current_stock_price*up_factor, dividend, coupon)
      + downtick_prob * autocallable_yield_note_binomial(k+1,i-1,current_stock_price*down_factor, dividend, coupon))/R;
-    //cout<<"divi"<<dividend<<" *** "<<"coup"<<coupon<<endl;
     
     
     return callstore[k][no_of_divisions+i];
