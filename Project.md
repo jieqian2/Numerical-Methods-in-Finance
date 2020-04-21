@@ -21,7 +21,7 @@ On review dates:
 On any review dates(expect the first and final review dates):
   * If closing stock price ≥ Initial value: notes will be automatically called for a cash payment, 
   
- cash payment = $1000 + Contingent Interest Payment applicable to that Review Date.
+    cash payment = $1000 + Contingent Interest Payment applicable to that Review Date.
  
 * Payment at Maturity: 
   * If Final Value ≥ Initial Value, or trigger event not occurred:
@@ -30,9 +30,13 @@ On any review dates(expect the first and final review dates):
  
   * If Final Value < Initial Value, and trigger event occurred: 
     
-    cash payment = $1000 + $1000 * stock return, 
-    
-    stock return = (Final Value - Initial Value)/Initial Value
+    cash payment = $1000 + $1000 * stock return, stock return = (Final Value - Initial Value)/Initial Value
 
 * Trigger event: A Trigger Event occurs if the closing price ≤ the Trigger Value
   
+![image](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/IMG/figure1.png)
+
+![image](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/IMG/figure2.png)
+
+![image](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/IMG/figure3.png)
+
