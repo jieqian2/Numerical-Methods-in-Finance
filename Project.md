@@ -8,8 +8,7 @@ Pricing Auto Callable Contingent Interest Notes
 * Pricing Date: March 13, 2020. Amazon's closing price is $1785.00
 * Initial Value: $1785.00
 * Final Value: Closing price of Amazon on `2021.6.14`
-* Contingent Interest Payments:   
-On review dates:
+* Contingent Interest Payments:(On review dates)
   * If closing stock price ≥ Interest barrier: get contingent interest payment of $19.125
   * If closing stock price < Interest barrier: no payment
 * Interest Barrier(Trigger Value): 70% of Inivial value, which is $1785 * 0.7 = $1249.50
