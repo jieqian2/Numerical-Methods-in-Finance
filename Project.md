@@ -18,8 +18,8 @@ on any review dates(**expect the first and final review dates**):
   
     cash payment = $1000 + Contingent Interest Payment applicable to that Review Date.
 * Interest Barrier(Trigger Value): 70% of Inivial value, which is $1785 * 0.7 = $1249.50
-* Review Dates:           `2020.6.15` `2020.9.14` `2020.12.14` `2020.3.15` `2021.6.14`
-* Interest Payment Dates:  `2020.6.17` `2020.9.16` `2020.12.16` `2020.3.17` `2021.6.16`, two days after the Review Dates.
+* Review Dates:           `2020.6.15` `2020.9.14` `2020.12.14` `2021.3.15` `2021.6.14`
+* Interest Payment Dates:  `2020.6.17` `2020.9.16` `2020.12.16` `2021.3.17` `2021.6.16`, two days after the Review Dates.
 * Maturity Date:          `2021.6.16`
 * Call Settlement Date: If the notes are automatically called on any Review Dates (other than the first and final Review Dates), the first Interest Payment Date immediately following that Review Date
 
