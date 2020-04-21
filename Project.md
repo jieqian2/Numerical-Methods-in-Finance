@@ -19,11 +19,11 @@ On review dates:
 * Call Settlement Date: If the notes are automatically called on any Review Dates (other than the first and final Review Dates), the first Interest Payment Date immediately following that Review Date
 * Automatic Call: 
 On any review dates(expect the first and final review dates):
- * if closing stock price ≥ Initial value: notes will be automatically called for a cash payment, 
+  * if closing stock price ≥ Initial value: notes will be automatically called for a cash payment, 
  cash payment = $1000 + Contingent Interest Payment applicable to that Review Date.
  
 * Payment at Maturity: 
- * if Final Value ≥ Initial Value, or trigger event has not occurred:
+  * if Final Value ≥ Initial Value, or trigger event has not occurred:
  cash payment = $1000 + Contingent Interest Payment applicable to the final Review Date
  
  
