@@ -1,7 +1,7 @@
 Pricing Auto Callable Contingent Interest Notes
 ====
 
-# Intro of the product
+# Intro 
 
 * Face Value: $1000
 * Reference Stock: Amazon.com, Inc.
@@ -18,7 +18,7 @@ On review dates:
 * Maturity Date:          `2021.6.16`
 * Call Settlement Date: If the notes are automatically called on any Review Dates (other than the first and final Review Dates), the first Interest Payment Date immediately following that Review Date
 * Automatic Call: 
-On any review dates(expect the first and final review dates):
+On any review dates(**expect the first and final review dates**):
   * If closing stock price ≥ Initial value: notes will be automatically called for a cash payment, 
   
     cash payment = $1000 + Contingent Interest Payment applicable to that Review Date.
@@ -39,4 +39,9 @@ On any review dates(expect the first and final review dates):
 ![image](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/IMG/figure2.png)
 
 ![image](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/IMG/figure3.png)
+
+# Pricing Methods
+
+## Finite Difference Method
+
 
