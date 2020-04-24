@@ -3,7 +3,7 @@ Pricing Auto Callable Contingent Interest Notes
 
 > I am as smart as JPMorgan guys!
 
-# Intro 
+# 1. Intro 
 
 * Face Value: $1000
 * Reference Stock: Amazon.com, Inc.
@@ -45,15 +45,14 @@ on any review dates(**expect the first and final review dates**):
 
 ![image](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/IMG/figure3.png)
 
-# Pricing Methods
 
-## Finite Difference Method
+# 2. Pricing using Crank-Nicolson Finite Difference Method 
 
-### Set Mesh
+## 2.1 Set Mesh
 
-### Set Boundary Condition
+## 2.2 Set Boundary Condition
 
-### Consider Callable Feature
+## 2.3 Consider Callable Feature
 
 we need two grids:
 
