@@ -5,7 +5,9 @@ Pricing Auto Callable Contingent Interest Notes
 
 # 1. Intro 
 
-https://www.sec.gov/Archives/edgar/data/19617/000161577420003465/s124044_424b2.htm
+Fully detail: https://www.sec.gov/Archives/edgar/data/19617/000161577420003465/s124044_424b2.htm
+
+Brief introduction:
 
 * Face Value: $1000
 * Reference Stock: Amazon.com, Inc.
@@ -50,30 +52,60 @@ on any review dates(**expect the first and final review dates**):
 
 # 2. Pricing using Crank-Nicolson Finite Difference Method 
 
-## 2.1 Set Mesh
+## 2.1 Set Grid
 
 
-## 2.2 Set Boundary Condition
+We need to set up two grids. The first grid, named VT, is when the trigger event happened. The second grid, named V, is when it didn't. 
 
-### 2.2.1 Up Boundary Condition
+Denote: 
+Up Boundary Condition(UBC)
+Low Boundary Condition(LBC)
+Terminal Boundary Condition(TBC)
 
-Vi,jmax = (1000 + coupon) * exp(-r*(Tnac - i * dt)
-Tnac = review dates: 94;185;276;367;458(maturity)
+dS = small price steps
+dt = small time steps
+i = number of steps on time
+j = number of steps on price
+imax = T/dt
+jmax = Smax/dS
+IN = initial_price/dS
+IB = interest_barrier/dS
 
-### 2.2.2 Low Boundary Condition
-Trigger event happened:
+TBC:
+```cpp
+ColumnVector VT(M+1);
+VT = 0.0;
+for(int i=0; i<M; i++){
+    if(i >= IN)
+        VT.element(i) = 1019.125 *exp(-r*2.0/365.0);
+    else if(i >= IB)
+        VT.element(i) = (1019.125)*((double) i/(IN+MIN)) *exp(-r*2.0/365.0);
+    else
+        VT.element(i) = (1000.00)*((double) i/(IN+MIN)) *exp(-r*2.0/365.0);    
+ }
+ ColumnVector V(M+1);
+ V = 0.0;
+ for(int i=0; i<M; i++){
+    V.element(i) = (1019.125)*((double) i/(IN+MIN)) *exp(-r*2.0/365.0);
+ }
+```
 
-Vi,0 = 1000 + 1000 * stock return = 0
-
-### 2.2.3 Terminal Boundary Condition
-
-Terminal value depends on path.
-
-
+LBC
+```cpp
+VT.element(0) = 0.0;
+V.element(0) = 0.0;
+```
 
 
- 
-## 2.3 Consider Callable Feature
+
+## 2.2 Algorithm
+
+
+
+
+
+
+
 
 we need two grids:
 
