@@ -144,6 +144,15 @@ solve V
 If j≥IB, add on discounted coupon on VTi,j and Vi,j
 
 
+# 3. Sensitivity Analysis
+
+## 3.1 Sensitivity to dS/steps of stock price
+
+## 3.2 Sensitivity to dt/steps of experiation time
+
+## 3.3 Sensitivity to Volatility of underlying asset 
+
+
 
 
 
