@@ -49,6 +49,12 @@ on any review dates(**expect the first and final review dates**):
 
 ## Finite Difference Method
 
+### Set Mesh
+
+### Set Boundary Condition
+
+### Consider Callable Feature
+
 we need two grids:
 
 The first one is when the trigger event has occurred, the second is when it has not.
