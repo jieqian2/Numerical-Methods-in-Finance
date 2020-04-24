@@ -1,6 +1,8 @@
 Pricing Auto Callable Contingent Interest Notes
 ====
 
+> I am as smart as JPMorgan guys!
+
 # Intro 
 
 * Face Value: $1000
