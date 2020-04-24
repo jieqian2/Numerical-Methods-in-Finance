@@ -67,6 +67,11 @@ imax = T/dt
 jmax = Smax/dS
 IN = initial_price/dS
 IB = interest_barrier/dS
+review dates:
+rd1 = (94.0/365.0)/dt
+rd2 = (185.0/365.0)/dt
+rd3 = (276.0/365.0)/dt
+rd4 = (367.0/365.0)/dt
 ```
 Terminal Boundary Condition(TBC)
 ```cpp
@@ -96,26 +101,47 @@ V.element(0) = 0.0;
 
 ## 2.2 Algorithm
 
+The key here is to maintain two grids at the same time. VT is for trigger event happened, V is not. 
+
+Then go backward, whenever stock price hit the trigger(IB/interest_barrier), the value becomes the value we calculated in VT 
+(i.e. set Vi,j become the VTi,j).
+
+On coupon and autocall date, we have to change the UBC. And for specific j, switch to VT.
+
 ### 2.2.1. On non-coupon and non-autocall date:
 
 At every step i, solve VT from j=0 to j=jmax.
-Then, solve V from j=0 to j=jmax, and set Vi,j = VTi,j when j≤ IB
 
-### 2.2.1. On non-coupon and non-autocall date:
-
+Then, solve V on IB<j<jmax, 
 
 
+### 2.2.2. On coupon and autocall date (rd2, rd3, rd4):
+
+UBC: all j≥IN,
+
+VTi,j = 1000 * exp(-r * days/365) 
+
+Vi,j = 1000 * exp(-r * days/365) 
+
+then solve for VT on 0<j<IN, 
+
+solve V on IB<j<IN, i.e. set Vi,j = VTi,j when j≤ IB 
+
+If j≥IB, add on discounted coupon on VTi,j and Vi,j
+
+
+### 2.2.3. On coupon and non-autocall date (rd1):
+
+solve VT,
+
+set all j≤IB  Vi,j = VTi,j
+
+solve V
+
+If j≥IB, add on discounted coupon on VTi,j and Vi,j
 
 
 
 
-we need two grids:
-
-The first one is when the trigger event has occurred, the second is when it has not.
-
-Then on the second grid, whenever you hit the trigger then value becomes the value that you calculated in the first grid. That is the lower boundary condition at S = trigger is the value already calculated in the first grid.
-
-
-review dates: 94;185;276;367;458(maturity)
 
 
