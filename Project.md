@@ -35,7 +35,10 @@ on any review dates(**expect the first and final review dates**):
     
     cash payment = $1000 + $1000 * stock return, stock return = (Final Value - Initial Value)/Initial Value
 
-* Trigger event: A Trigger Event occurs if the closing price ≤ the Trigger Value
+* Trigger event: A Trigger Event occurs if the closing price ≤ the Trigger Value.
+**Remark: the trigger event is detected all the time, not just in callable time.**
+
+
   
 ![image](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/IMG/figure1.png)
 
