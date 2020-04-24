@@ -5,6 +5,8 @@ Pricing Auto Callable Contingent Interest Notes
 
 # 1. Intro 
 
+https://www.sec.gov/Archives/edgar/data/19617/000161577420003465/s124044_424b2.htm
+
 * Face Value: $1000
 * Reference Stock: Amazon.com, Inc.
 * Pricing Date: March 13, 2020. Amazon's closing price is $1785.00
@@ -50,8 +52,27 @@ on any review dates(**expect the first and final review dates**):
 
 ## 2.1 Set Mesh
 
+
 ## 2.2 Set Boundary Condition
 
+### 2.2.1 Up Boundary Condition
+
+Vi,jmax = (1000 + coupon) * exp(-r*(Tnac - i * dt)
+Tnac = review dates: 94;185;276;367;458(maturity)
+
+### 2.2.2 Low Boundary Condition
+Trigger event happened:
+
+Vi,0 = 1000 + 1000 * stock return = 0
+
+### 2.2.3 Terminal Boundary Condition
+
+Terminal value depends on path.
+
+
+
+
+ 
 ## 2.3 Consider Callable Feature
 
 we need two grids:
