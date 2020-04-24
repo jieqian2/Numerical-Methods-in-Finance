@@ -106,7 +106,10 @@ The key here is to maintain two grids at the same time. VT is for trigger event 
 Then go backward, whenever stock price hit the trigger(IB/interest_barrier), the value becomes the value we calculated in VT 
 (i.e. set Vi,j become the VTi,j).
 
-On coupon and autocall date, we have to change the UBC. And for specific j, switch to VT.
+On coupon and autocall date, we have to change the UBC. The LBC doesn't change, for V, its LBC is actually always the IB.(Since we swithc to VT for price below that).
+
+At last, we add on coupon when we finish our value for VT and V.
+
 
 ### 2.2.1. On non-coupon and non-autocall date:
 
