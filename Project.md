@@ -53,3 +53,7 @@ The first one is when the trigger event has occurred, the second is when it has 
 
 Then on the second grid, whenever you hit the trigger then value becomes the value that you calculated in the first grid. That is the lower boundary condition at S = trigger is the value already calculated in the first grid.
 
+
+review dates: 94;185;276;367;458(maturity)
+
+
