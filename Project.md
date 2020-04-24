@@ -57,11 +57,8 @@ on any review dates(**expect the first and final review dates**):
 
 We need to set up two grids. The first grid, named VT, is when the trigger event happened. The second grid, named V, is when it didn't. 
 
-Denote: 
-Up Boundary Condition(UBC)
-Low Boundary Condition(LBC)
-Terminal Boundary Condition(TBC)
-
+Denote:
+```cpp
 dS = small price steps
 dt = small time steps
 i = number of steps on time
@@ -70,8 +67,8 @@ imax = T/dt
 jmax = Smax/dS
 IN = initial_price/dS
 IB = interest_barrier/dS
-
-TBC:
+```
+Terminal Boundary Condition(TBC)
 ```cpp
 ColumnVector VT(M+1);
 VT = 0.0;
@@ -89,8 +86,7 @@ for(int i=0; i<M; i++){
     V.element(i) = (1019.125)*((double) i/(IN+MIN)) *exp(-r*2.0/365.0);
  }
 ```
-
-LBC
+Low Boundary Condition(LBC)
 ```cpp
 VT.element(0) = 0.0;
 V.element(0) = 0.0;
@@ -100,6 +96,12 @@ V.element(0) = 0.0;
 
 ## 2.2 Algorithm
 
+### 2.2.1. On non-coupon and non-autocall date:
+
+At every step i, solve VT from j=0 to j=jmax.
+Then, solve V from j=0 to j=jmax, and set Vi,j = VTi,j when j≤ IB
+
+### 2.2.1. On non-coupon and non-autocall date:
 
 
 
