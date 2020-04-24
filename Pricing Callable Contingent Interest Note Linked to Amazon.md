@@ -5,9 +5,9 @@ Pricing Auto Callable Contingent Interest Notes
 
 # 1. Intro 
 
-Fully detail: https://www.sec.gov/Archives/edgar/data/19617/000161577420003465/s124044_424b2.htm
+Full details in https://www.sec.gov/Archives/edgar/data/19617/000161577420003465/s124044_424b2.htm
 
-Brief introduction:
+Brief introduction (not so brief, but..):
 
 * Face Value: $1000
 * Reference Stock: Amazon.com, Inc.
@@ -52,7 +52,22 @@ on any review dates(**expect the first and final review dates**):
 
 # 2. Pricing using Crank-Nicolson Finite Difference Method 
 
-## 2.1 Set Grid
+## 2.1 准备工作
+
+Suppose the stock price follow GBM
+
+
+formals,
+
+value of the derivatives f(S,t)
+
+BSPDE,
+
+apply C-N FD,
+
+
+
+## 2.2 Set Grid
 
 
 We need to set up two grids. The first grid, named VT, is when the trigger event happened. The second grid, named V, is when it didn't. 
@@ -99,7 +114,7 @@ V.element(0) = 0.0;
 
 
 
-## 2.2 Algorithm
+## 2.3 Algorithm
 
 The key here is to maintain two grids at the same time. VT is for trigger event happened, V is not. 
 
@@ -111,14 +126,14 @@ On coupon and autocall date, we have to change the UBC. The LBC doesn't change, 
 At last, we add on coupon when we finish our value for VT and V.
 
 
-### 2.2.1. On non-coupon and non-autocall date:
+### 2.3.1. On non-coupon and non-autocall date:
 
 At every step i, solve VT from j=0 to j=jmax.
 
 Then, solve V on IB<j<jmax, 
 
 
-### 2.2.2. On coupon and autocall date (rd2, rd3, rd4):
+### 2.3.2. On coupon and autocall date (rd2, rd3, rd4):
 
 UBC: all j≥IN,
 
@@ -133,7 +148,7 @@ solve V on IB<j<IN, i.e. set Vi,j = VTi,j when j≤ IB
 If j≥IB, add on discounted coupon on VTi,j and Vi,j
 
 
-### 2.2.3. On coupon and non-autocall date (rd1):
+### 2.3.3. On coupon and non-autocall date (rd1):
 
 solve VT,
 
