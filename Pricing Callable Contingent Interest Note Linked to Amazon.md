@@ -56,6 +56,7 @@ on any review dates(**expect the first and final review dates**):
 
 Suppose the stock price follow GBM
 
+$dS/S = rdt+sigmadS $
 
 formals,
 
