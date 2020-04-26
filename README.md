@@ -5,7 +5,7 @@
 
 
 
-This file includes the code I've written for the course Numerical Method in finance and Stochastic Calculus, Spring 2020.
+This file includes the code I've written for the course Numerical Method in finance, Stochastic Calculus in Spring 2020.
 
 Topic related: 
 * Explicit, Implicit, Crank-Nicolson finite difference method; 
