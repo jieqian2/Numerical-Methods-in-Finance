@@ -16,4 +16,4 @@ And there are 2 complex derivative pricing project, one by Finite Different sche
 
 [Pricing Autocallable Contingent Interest Notes Linked to Amazon](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/Pricing%20Callable%20Contingent%20Interest%20Note%20Linked%20to%20Amazon.md)
 
-[Autocallable Yield Notes Pricing](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/Pricing%20Autocallable%20Yield%20Notes.md)
+[Pricing Autocallable Yield Notes](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/Pricing%20Autocallable%20Yield%20Notes.md)
