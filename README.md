@@ -14,3 +14,8 @@ Topic related:
 
 * Complex derivatives pricing...
 
+And there are 2 complex derivative pricing project, one by Finite Different scheme and one by binomial tree
+
+[Pricing Autocallable Contingent Interest Notes Linked to Amazon](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/Pricing%20Callable%20Contingent%20Interest%20Note%20Linked%20to%20Amazon.md)
+
+[Autocallable Yield Notes Pricing](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/Pricing%20Autocallable%20Yield%20Notes.md)
