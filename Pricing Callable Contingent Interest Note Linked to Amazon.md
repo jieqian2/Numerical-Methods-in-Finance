@@ -3,9 +3,9 @@ Pricing Auto Callable Contingent Interest Notes
 
 > I am as smart as JPMorgan guys!
 
-Contributor: `Jie Qian`, `Yunxi Wu`
+Contributors: `Jie Qian`, `Yunxi Wu`
 
-# 1. Intro 
+# 1. Introduction 
 
 Full details in https://www.sec.gov/Archives/edgar/data/19617/000161577420003465/s124044_424b2.htm
 
@@ -54,7 +54,7 @@ on any review dates(**expect the first and final review dates**):
 
 # 2. Pricing using Crank-Nicolson Finite Difference Method 
 
-## 2.1 Preparing and framework
+## 2.1 Preparing and Framework
 
 Suppose the stock price follow GBM. Then the note value f(S,t) is follow the BS PDE.
 
@@ -132,7 +132,7 @@ On coupon and autocall date, we have to change the UBC. The LBC doesn't change, 
 At last, we add on coupon when we finish our value for VT and V.
 
 
-### 2.3.1. On non-coupon and non-autocall date:
+### 2.3.1. On Non-coupon and Non-autocall Date:
 
 At every step i, solve VT from j=0 to j=jmax.
 
@@ -150,7 +150,7 @@ Then, solve V on IB<j<jmax.
 ```
 
 
-### 2.3.2. On coupon and autocall date (rd2, rd3, rd4):
+### 2.3.2. On Coupon and Autocall Date (rd2, rd3, rd4):
 
 UBC: all j≥IN,
 
@@ -188,7 +188,7 @@ If j≥IB, add on discounted coupon on VTi,j and Vi,j
 ```
 
 
-### 2.3.3. On coupon and non-autocall date (rd1):
+### 2.3.3. On Coupon and Non-autocall Date (rd1):
 
 solve VT,
 
@@ -215,7 +215,7 @@ If j≥IB, add on discounted coupon on VTi,j and Vi,j
         }
 ```
 
-# 2.4 Pricing result
+# 2.4 Pricing Result
 
 In benchmark senario, choose the parameters:
 
@@ -257,15 +257,15 @@ dt = np.arange(10.0/365.0, 0.9/365.0, -0.1/365)
 
 
 
-## 3.1 Sensitivity to dS/steps of stock price
+## 3.1 Sensitivity to dS/steps of Stock Price
 
 ![image](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/IMG/figure10.png)
 
-## 3.2 Sensitivity to dt/steps of experiation time
+## 3.2 Sensitivity to dt/steps of Experiation Time
 
 ![image](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/IMG/figure9.png)
 
-## 3.3 Sensitivity to Volatility of underlying asset 
+## 3.3 Sensitivity to Volatility of Underlying Asset 
 
 Volatility choose:
 
