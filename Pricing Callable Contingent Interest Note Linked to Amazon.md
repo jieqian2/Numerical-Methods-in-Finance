@@ -52,21 +52,25 @@ on any review dates(**expect the first and final review dates**):
 
 # 2. Pricing using Crank-Nicolson Finite Difference Method 
 
-## 2.1 准备工作
+## 2.1 Preparing and framework
 
-Suppose the stock price follow GBM
+Suppose the stock price follow GBM. Then the note value f(S,t) is follow the BS PDE.
 
-$dS/S = rdt+sigmadS $
+![image](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/IMG/figure13.png)
 
-formals,
+apply Crank-Nicolson Finite Difference Scheme,
 
-value of the derivatives f(S,t)
+![image](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/IMG/figure4.png)
 
-BSPDE,
+That is,
 
-apply C-N FD,
+![image](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/IMG/figure5.png)
 
+In matrix form:
 
+![image](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/IMG/figure6.png)
+
+![image](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/IMG/figure7.png)
 
 ## 2.2 Set Grid
 
@@ -114,7 +118,6 @@ V.element(0) = 0.0;
 ```
 
 
-
 ## 2.3 Algorithm
 
 The key here is to maintain two grids at the same time. VT is for trigger event happened, V is not. 
@@ -131,7 +134,18 @@ At last, we add on coupon when we finish our value for VT and V.
 
 At every step i, solve VT from j=0 to j=jmax.
 
-Then, solve V on IB<j<jmax, 
+Then, solve V on IB<j<jmax.
+
+```cpp
+ // on non-coupon non-callable date
+        if(t!=rd1 && t!=rd2 && t!=rd3 && t!=rd4){
+            VT = C.i() * D * VT;
+            V = C.i() * D * V;
+            for(int i=0; i<IB; i++){
+                V.element(i) = VT.element(i);
+            }
+        }
+```
 
 
 ### 2.3.2. On coupon and autocall date (rd2, rd3, rd4):
@@ -148,6 +162,29 @@ solve V on IB<j<IN, i.e. set Vi,j = VTi,j when j≤ IB
 
 If j≥IB, add on discounted coupon on VTi,j and Vi,j
 
+```cpp
+// on coupon and autocall date
+        if(t==rd2 || t==rd3 || t==rd4){
+            for(int i=IN; i<M; i++){
+                VT.element(i) = 1000 *exp(-r*((double)t*dt));
+            }
+            VT = C.i() * D * VT;
+            
+            for(int i=IN; i<M; i++){
+                V.element(i) = 1000 *exp(-r*((double)t*dt));
+            }
+            V = C.i() * D * V;
+            for(int i=0; i<IB; i++){
+                V.element(i) = VT.element(i);
+            }
+            
+            for(int i=IB; i<M; i++){
+                VT.element(i) += 19.125 *exp(-r*((double)t*dt));
+                V.element(i) += 19.125 *exp(-r*((double)t*dt));
+            }
+        }
+```
+
 
 ### 2.3.3. On coupon and non-autocall date (rd1):
 
@@ -159,15 +196,42 @@ solve V
 
 If j≥IB, add on discounted coupon on VTi,j and Vi,j
 
+```cpp
+// on coupon only date
+        if(t==rd1){
+            VT = C.i() * D * VT;
+            
+            for(int i=0; i<IB; i++){
+                V.element(i) = VT.element(i);
+            }
+            V = C.i() * D * V;
+
+            for(int i=IB; i<M; i++){
+                VT.element(i) += 19.125 *exp(-r*((double)t*dt));
+                V.element(i) += 19.125 *exp(-r*((double)t*dt));
+            }
+        }
+```
+
 
 # 3. Sensitivity Analysis
 
 ## 3.1 Sensitivity to dS/steps of stock price
 
+![image](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/IMG/figure10.png)
+
 ## 3.2 Sensitivity to dt/steps of experiation time
+
+![image](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/IMG/figure9.png)
 
 ## 3.3 Sensitivity to Volatility of underlying asset 
 
+
+![image](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/IMG/figure8.png)
+
+
+
+![image](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/IMG/figure11.png)
 
 
 
