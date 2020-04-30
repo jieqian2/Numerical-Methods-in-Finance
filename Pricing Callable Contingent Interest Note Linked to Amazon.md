@@ -3,6 +3,8 @@ Pricing Auto Callable Contingent Interest Notes
 
 > I am as smart as JPMorgan guys!
 
+Contributor: `Jie Qian`, `Yunxi Wu`
+
 # 1. Intro 
 
 Full details in https://www.sec.gov/Archives/edgar/data/19617/000161577420003465/s124044_424b2.htm
@@ -213,8 +215,37 @@ If j≥IB, add on discounted coupon on VTi,j and Vi,j
         }
 ```
 
+# 2.4 Pricing result
+
+In benchmark senario, choose the parameters:
+
+```cpp
+    double initial_value = 1785.00;
+    double interest_barrier = 1249.50; //0.7*initial_value
+    double r = 0.00443456842; //LIBOR, forward rate due on maturity date
+    double sigma = 0.36031; //choose K=S0(basic case:moneyness=100), or K=IB, 0.41321;
+    double T = 458.0/365.0; // 458 days between 3/13/20 to 6/14/21
+    double Smax = 3*initial_value; //highly unlikely to be touched in 15month
+    double Smin = 0.0;
+    double dS = 0.01*initial_value; //0.01*S0
+    double dt = 1.0/365.0; // every days 1.0/365.0  
+```
+
+It gives a result as,
+```cpp
+Value: $926.957
+```
+
+It is close to the JPMorgan team's pricing $935.00 when they try to sell this product.
+
 
 # 3. Sensitivity Analysis
+
+
+![image](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/IMG/figure11.png)
+
+In 3D surface, we could see that with the decrease of dS and dt, the volatility of Value is also decrease.
+
 
 ## 3.1 Sensitivity to dS/steps of stock price
 
@@ -226,14 +257,17 @@ If j≥IB, add on discounted coupon on VTi,j and Vi,j
 
 ## 3.3 Sensitivity to Volatility of underlying asset 
 
+Volatility choose:
 
 ![image](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/IMG/figure8.png)
 
-
-
-![image](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/IMG/figure11.png)
-
+![image](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/IMG/figure12.png)
 
 
 
+# 4 Appendix
+
+The full code is in:
+
+[Pricing Autocallable Contingent Interest Notes Linked to Amazon](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/6.pricing%20autocallable%20contingent%20interest%20note.cpp)
 
