@@ -241,10 +241,20 @@ It is close to the JPMorgan team's pricing $935.00 when they try to sell this pr
 
 # 3. Sensitivity Analysis
 
+Plotting 3D surface, we could see that with the decrease of dS and dt, the volatility of Value is also decrease.
+
+The range of dS is from 0.1 * initial_value to 0.01 * initial_value;
+
+The range of dt is from 10/365 to 1/365.
+
+```python
+dS = np.arange(178.5, 17.85-1.785, -1.785)
+dt = np.arange(10.0/365.0, 0.9/365.0, -0.1/365)
+```
+
 
 ![image](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/IMG/figure11.png)
 
-In 3D surface, we could see that with the decrease of dS and dt, the volatility of Value is also decrease.
 
 
 ## 3.1 Sensitivity to dS/steps of stock price
