@@ -12,6 +12,8 @@ Topic related:
 
 * [Monte Carlo Simulation](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/3.Plain%20Monte%20Carlo.cpp), [Variance Reduction technique](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/4.1.MC%20simulation%20with%20Contorl%20Variates.ipynb), Importance Sampling, [Sensitivity Analysis in Morte Carlo Simulation](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/5.Sensitivity%20analysis%20in%20Monte%20Carlo%20Simulation.cpp)...
 
+* [Longstaff and Schwartz Algorithm(solve Monte Carlo in Monte Carlo problem)]()
+
 And there are 2 complex derivative pricing project, one by Finite Different scheme and one by binomial tree
 
 [Pricing Autocallable Contingent Interest Notes Linked to Amazon](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/Pricing%20Callable%20Contingent%20Interest%20Note%20Linked%20to%20Amazon.md)
