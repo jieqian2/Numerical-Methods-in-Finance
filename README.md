@@ -14,7 +14,7 @@ Topic related:
 
 * [Longstaff and Schwartz Algorithm(solve Monte Carlo in Monte Carlo problem)]()
 
-And there are 3 complex derivative pricing project, one by Finite Different scheme and one by binomial tree
+And there are 3 complex derivative pricing project, one by Finite Different scheme, one by Longstaff-Schwartz method and one by binomial tree
 
 [Pricing Autocallable Contingent Interest Notes Linked to Amazon](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/Pricing%20Callable%20Contingent%20Interest%20Note%20Linked%20to%20Amazon.md)
 
