@@ -17,13 +17,13 @@ Topic related:
 * Monte Carlo Simulation:
   * [Variance Reduction technique](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/4.1.MC%20simulation%20with%20Contorl%20Variates.ipynb), 
   * Importance Sampling, 
-  * [Sensitivity Analysis](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/5.Sensitivity%20analysis%20in%20Monte%20Carlo%20Simulation.cpp)...
+  * [Sensitivity Analysis](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/5.Sensitivity%20analysis%20in%20Monte%20Carlo%20Simulation.cpp),
   * [Longstaff and Schwartz(Least Squares Monte Carlo)](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/Pricing%20Callable%20Contingent%20Coupon%20Barrier%20Notes.md)
 
 And there are 3 complex derivative pricing project, one by Finite Different scheme, one by Longstaff-Schwartz method and one by binomial tree
 
 [Pricing Autocallable Contingent Interest Notes Linked to Amazon](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/Pricing%20Callable%20Contingent%20Interest%20Note%20Linked%20to%20Amazon.md)
 
-[Pricing Callable Contingent Coupon Barrier Notes](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/Pricing%20Callable%20Contingent%20Coupon%20Barrier%20Notes.md)
+[Pricing Callable Contingent Coupon Barrier Notes Linked to Bank of America](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/Pricing%20Callable%20Contingent%20Coupon%20Barrier%20Notes.md)
 
 [Pricing Autocallable Yield Notes](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/Pricing%20Autocallable%20Yield%20Notes.md)
