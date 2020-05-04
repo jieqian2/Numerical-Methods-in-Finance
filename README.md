@@ -8,11 +8,17 @@
 This file includes the code I've written for the course Numerical Method in finance, Stochastic Calculus in Spring 2020.
 
 Topic related: 
-* [Explicit](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/1.1.Explicit%20Finite%20Difference%20Scheme%20for%20Transport%20Equation%20.cpp), Implicit, [Crank-Nicolson finite difference method](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/2.Crank-Nicolson%20scheme%20and%20down-and-out%20barrier%20option.cpp); 
 
-* [Monte Carlo Simulation](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/3.Plain%20Monte%20Carlo.cpp), [Variance Reduction technique](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/4.1.MC%20simulation%20with%20Contorl%20Variates.ipynb), Importance Sampling, [Sensitivity Analysis in Morte Carlo Simulation](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/5.Sensitivity%20analysis%20in%20Monte%20Carlo%20Simulation.cpp)...
+* Finite Difference Methods:
+  * [Explicit](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/1.1.Explicit%20Finite%20Difference%20Scheme%20for%20Transport%20Equation%20.cpp), 
+  * Implicit, 
+  * [Crank-Nicolson](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/2.Crank-Nicolson%20scheme%20and%20down-and-out%20barrier%20option.cpp); 
 
-* [Longstaff and Schwartz Algorithm(solve Monte Carlo in Monte Carlo problem)]()
+* Monte Carlo Simulation:
+  * [Variance Reduction technique](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/4.1.MC%20simulation%20with%20Contorl%20Variates.ipynb), 
+  * Importance Sampling, 
+  * [Sensitivity Analysis](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/5.Sensitivity%20analysis%20in%20Monte%20Carlo%20Simulation.cpp)...
+  * [Longstaff and Schwartz(Least Squares Monte Carlo)](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/Pricing%20Callable%20Contingent%20Coupon%20Barrier%20Notes.md)
 
 And there are 3 complex derivative pricing project, one by Finite Different scheme, one by Longstaff-Schwartz method and one by binomial tree
 
