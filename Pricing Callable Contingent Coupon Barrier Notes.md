@@ -60,9 +60,11 @@ Contingent Coupon Rate:
 
 # 2. Pricing by Longstaff and Schwartz Algorithm(LSMC)
 
-There is one important point we need to be careful with. When using Longstaff and Schwartz Algorithm to price American put option, we only choose in the money price paths to do regression, that's because the exercise boundary is clear, we never exercise it when S>K.
+There is one important point we need to be careful with. 
 
-**But here, the boundary between call and non-call is unclear. We don't know the point at which the issuer switch from calling to not calling (the exercise boundary). **
+When using Longstaff and Schwartz Algorithm to price American put option, we only choose in the money price paths to do regression, that's because the exercise boundary is clear, we never exercise it when S>K.
+
+**But here, the boundary between call and non-call is unclear. We don't know the point at which the issuer switch from calling to not calling (the exercise boundary).**
 
 So actually we should choose all paths to do regression in this product.
 
