@@ -238,7 +238,7 @@ double longstaff_schwartz(int num_of_simulations){
 
 I compared the simple regression and 4th order regression and different simulation.
 
-Of course the senario with the 4th order regression and more simulation times is better.  Usually, using 4th order regression is more effective, and have less variance.
+Of course the senario with the 4th order regression and more simulation times is better.  Usually, using 4th order regression is more precise and have less variance.
 
 ```cpp
     cout<<"---Pricing by Longstaff&Schwartz---"<<endl;
