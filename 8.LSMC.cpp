@@ -357,7 +357,7 @@ int main(int argc, const char * argv[]) {
     double LS_price_3 = longstaff_schwartz_benchmark(1000000);
     cout<<"(3) Using simple polynomial regression: $"<<setprecision(13)<<LS_price_3<<endl;
     double LS_price_4= longstaff_schwartz(1000000);
-       cout<<"(4) Using 4th order polynomial regression: $"<<setprecision(13)<<LS_price_4<<endl;
+    cout<<"(4) Using 4th order polynomial regression: $"<<setprecision(13)<<LS_price_4<<endl;
     
     return 0;
 }
