@@ -60,13 +60,13 @@ Contingent Coupon Rate:
 
 # 2. Pricing by Longstaff and Schwartz Algorithm(LSMC)
 
-There is one important point we need to be careful with. 
+There is one important point should we pay more attention to. 
 
 When using Longstaff and Schwartz Algorithm to price American put option, we only choose in the money price paths to do regression, that's because the exercise boundary is clear, we never exercise it when S>K.
 
-__But here, the boundary between call and non-call is unclear. We don't know the point at which the issuer switch from calling to not calling (the exercise boundary).__
+__But here, the boundary between call and non-call is unclear.__ We don't know the point at which the issuer switch from calling to not calling (the exercise boundary).
 
-So actually we should choose all paths to do regression in this product.
+**So actually we should choose all paths to do regression in this product.
 
 
 ## 2.1 Using simple polynomial regression
@@ -269,4 +269,8 @@ Simulation times: 1,000,000
 (4) Using 4th order polynomial regression: $973.5578147209
 ```
 Remark: the considered real price is $975, pricing by Royal Bank of Canda, the issuer.
+
+# 4. Appendix
+
+[Full code]()
 
