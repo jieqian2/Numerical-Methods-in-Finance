@@ -58,12 +58,207 @@ Contingent Coupon Rate:
 
 
 
-# 2. Pricing Method
-
-## 2.1 Finte Different Scheme
+# 2. Pricing by Longstaff and Schwartz Algorithm
 
 
+## 2.1 Using simple polynomial regression
 
-## 2.2 Longstaff and Schwartz Algorithm
+```cpp
+double longstaff_schwartz_benchmark(int num_of_simulations){
+    Tracer tr("name");
+    
+    double delta_T = T/((double) num_of_divisions);
+    double delta_R = (r - q - 0.5*pow(sigma,2))*delta_T;
+    double delta_SD = sigma*sqrt(delta_T);
+    double R = exp(r*T/((double) num_of_divisions));
+    
+    vector<double> rd = {90.0/365.0, 182.0/365.0, 274.0/365.0,
+        366.0/365.0, 455.0/365.0, 547.0/365.0, 639.0/365.0};
+    
+    Matrix asset_price(num_of_simulations, 9);
+    for(int i=0; i<num_of_simulations; i++)
+        asset_price.element(i,0) = initial_value;
+    
+    for(int i=0; i<num_of_simulations; i++)
+        for(int j=1; j<= num_of_divisions; j++)
+            asset_price.element(i,j) = asset_price.element(i,j-1)*exp(delta_R + delta_SD*get_gaussian());
+    
+    ColumnVector value(num_of_simulations);
+    for(int i=0; i<num_of_simulations; i++){
+        if (asset_price.element(i,8) >= interest_barrier)
+            value.element(i) = 1022.5 *exp(-r*5.0/365.0);
+        else
+            value.element(i) = 1000.0 *(asset_price.element(i,8)/(initial_value)) *exp(-r*5.0/365.0);
+    }
+    
+    for(int i=(num_of_divisions); i>0; i--){
+        
+        Matrix independent_variables(num_of_simulations,1);
+        Matrix dependent_variables(num_of_simulations,1);
+        
+        int num_of_variables = 0;
+        for(int j = 0; j < num_of_simulations; j++){
+            //if(asset_price.element(j, i) < interest_barrier)
+            {
+                independent_variables.element(num_of_variables,0) = asset_price.element(j,i);
+                dependent_variables.element(num_of_variables,0) = value.element(j)/R;
+                num_of_variables++;
+            }
+            
+        }
+        
+        {
+            //regressing the dependent_variables on the independent variables using simple polynomial
+            Matrix a(4,1);
+            a = polynomial_regression(independent_variables, dependent_variables, 2, num_of_variables);
 
+            for (int j = 0; j < num_of_simulations; j++) {
+                double continue_value_hat = (a.element(0,0) +(a.element(1,0)*asset_price.element(j,i)));
+
+                if(continue_value_hat >= 1022.5 * exp(-r*rd[i])) //it will be called
+                    value.element(j) = 1000 * exp(-r*rd[i]);
+                else
+                    value.element(j) = value.element(j)/R;
+            }
+            
+            for (int j = 0; j < num_of_simulations; j++){
+                if(asset_price.element(j,i) >= interest_barrier){
+                    value.element(j) = value.element(j) + 22.5 * exp(-r*rd[i]);
+                }
+            }
+        }
+    }
+    double note_price = 0.0;
+    for(int i=0; i<num_of_simulations; i++){
+        note_price += value.element(i)/R;
+    }
+    note_price = note_price/(double) num_of_simulations;
+    
+    if(note_price>1000.0 || note_price<950)
+        return longstaff_schwartz(num_of_simulations);
+    
+    return note_price;
+}
+```
+
+### 2.2 Using 4th order polynomial regression
+
+
+
+
+```cpp
+double longstaff_schwartz(int num_of_simulations){
+    Tracer tr("name");
+    
+    double delta_T = T/((double) num_of_divisions);
+    double delta_R = (r - q - 0.5*pow(sigma,2))*delta_T;
+    double delta_SD = sigma*sqrt(delta_T);
+    double R = exp(r*T/((double) num_of_divisions));
+    
+    vector<double> rd = {90.0/365.0, 182.0/365.0, 274.0/365.0,
+        366.0/365.0, 455.0/365.0, 547.0/365.0, 639.0/365.0};
+    
+    Matrix asset_price(num_of_simulations, 9);
+    for(int i=0; i<num_of_simulations; i++)
+        asset_price.element(i,0) = initial_value;
+    
+    for(int i=0; i<num_of_simulations; i++)
+        for(int j=1; j<= num_of_divisions; j++)
+            asset_price.element(i,j) = asset_price.element(i,j-1)*exp(delta_R + delta_SD*get_gaussian());
+    
+    ColumnVector value(num_of_simulations);
+    for(int i=0; i<num_of_simulations; i++){
+        if (asset_price.element(i,8) >= interest_barrier)
+            value.element(i) = 1022.5 *exp(-r*5.0/365.0);
+        else
+            value.element(i) = 1000.0 *(asset_price.element(i,8)/(initial_value)) *exp(-r*5.0/365.0);
+    }
+    
+    for(int i=(num_of_divisions); i>0; i--){
+        
+        Matrix independent_variables(num_of_simulations,1);
+        Matrix dependent_variables(num_of_simulations,1);
+        
+        int num_of_variables = 0;
+        for(int j = 0; j < num_of_simulations; j++){
+            //if(asset_price.element(j, i) < interest_barrier)
+            {
+                independent_variables.element(num_of_variables,0) = asset_price.element(j,i);
+                dependent_variables.element(num_of_variables,0) = value.element(j)/R;
+                num_of_variables++;
+            }
+            
+        }
+        //if(num_of_variables > 4)
+        {
+            //regressing the dependent_variables on the independent variables using a 3th order polynomial
+            Matrix a(4,1);
+            a = polynomial_regression(independent_variables, dependent_variables, 4, num_of_variables);
+
+            for (int j = 0; j < num_of_simulations; j++) {
+                double continue_value_hat = (a.element(0,0) +(a.element(1,0)*asset_price.element(j,i)) +(a.element(2,0)*pow(asset_price.element(j,i),2)) +(a.element(3,0)*pow(asset_price.element(j,i),3)));
+
+                if(continue_value_hat >= 1022.5 * exp(-r*rd[i])) //it will be called
+                    value.element(j) = 1000 * exp(-r*rd[i]);
+                else
+                    value.element(j) = value.element(j)/R;
+            }
+            
+            for (int j = 0; j < num_of_simulations; j++){
+                if(asset_price.element(j,i) >= interest_barrier){
+                    value.element(j) = value.element(j) + 22.5 * exp(-r*rd[i]);
+                }
+            }
+        }
+    }
+    double note_price = 0.0;
+    for(int i=0; i<num_of_simulations; i++){
+        note_price += value.element(i)/R;
+    }
+    note_price = note_price/(double) num_of_simulations;
+    
+    if(note_price>1000.0 || note_price<950)
+        return longstaff_schwartz(num_of_simulations);
+    
+    return note_price;
+}
+
+
+```
+
+# 3. Outcome Analysis
+
+I compared the simple regression and 4th order regression and different simulation.
+
+Of course the senario with the 4th order regression and more simulation times is better.  Usually, using 4th order regression is more effective, and have less variance.
+
+```cpp
+    cout<<"---Pricing by Longstaff&Schwartz---"<<endl;
+    cout<<"Simulation times: 10,000"<<endl;
+    double LS_price_benchmark = longstaff_schwartz_benchmark(10000);
+    cout<<"(1) Benchmark Sernario,simple polynomial regression: $"<<setprecision(13)<<LS_price_benchmark<<endl;
+    double LS_price= longstaff_schwartz(10000);
+    cout<<"(2) Using 4th order polynomial regression: $"<<setprecision(13)<<LS_price<<endl;
+    cout<<endl;
+    
+    cout<<"Simulation times: 1,000,000"<<endl;
+    double LS_price_3 = longstaff_schwartz_benchmark(1000000);
+    cout<<"(3) Using simple polynomial regression: $"<<setprecision(13)<<LS_price_3<<endl;
+    double LS_price_4= longstaff_schwartz(1000000);
+       cout<<"(4) Using 4th order polynomial regression: $"<<setprecision(13)<<LS_price_4<<endl;
+```
+
+Outcome of one simulation:
+
+```cpp
+---Pricing by Longstaff&Schwartz---
+Simulation times: 10,000
+(1) Benchmark Sernario,simple polynomial regression: $982.9240456301
+(2) Using 4th order polynomial regression: $974.0593603616
+
+Simulation times: 1,000,000
+(3) Using simple polynomial regression: $974.244949888
+(4) Using 4th order polynomial regression: $973.5578147209
+```
+Remark: the considered real price is $975, pricing by Royal Bank of Canda, the issuer.
 
