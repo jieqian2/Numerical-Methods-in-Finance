@@ -6,6 +6,8 @@
 //  Copyright © 2020 JIE QIAN. All rights reserved.
 //
 
+// this file uses Longstaff-Schwartz method, also called least squares monte carlo.
+
 
 #include <iostream>
 #include <fstream>
