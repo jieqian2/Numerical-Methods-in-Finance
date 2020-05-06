@@ -119,7 +119,8 @@ void initial_parameters(){
     downtick_prob = 1.0 - uptick_prob;
 }
 
-double autocallable_yield_note_binomial(int k, int i, double current_stock_price, double dividend, double coupon){
+
+double autocallable_yield_note_binomial(int k, int i, double current_stock_price, double coupon){
     if(callstore[k][no_of_divisions+i] != -1.0)
         return callstore[k][no_of_divisions+i];
     
@@ -137,18 +138,48 @@ double autocallable_yield_note_binomial(int k, int i, double current_stock_price
     //if so, add dividend
     for(int j=0; j<dividend_date.size(); j++){
         if(k == dividend_date[j]){
-            dividend += period_dividend_rate
+            current_stock_price -=period_dividend_rate
                         *current_stock_price
                         *exp( -risk_free_rate* (double) dividend_date[j]/no_of_divisions);
+
         }
     }
+    
+    if(k == autocall_date[0]){
+        if(current_stock_price >= initial_stock_price){
+            call_on_first_date++;
+            call_before_maturity++;
+        }else{
+            not_call_on_first_date++;
+            //not_call_before_maturity++;
+        }
+    }
+    if(k == autocall_date[1]){
+        if(current_stock_price >= initial_stock_price){
+            call_on_second_date++;
+            call_before_maturity++;
+        }else{
+            not_call_on_second_date++;
+            //not_call_before_maturity++;
+        }
+    }
+    if(k == autocall_date[2]){
+        if(current_stock_price >= initial_stock_price){
+            call_on_last_date++;
+            call_before_maturity++;
+        }else{
+            not_call_on_last_date++;
+            not_call_before_maturity++;
+        }
+    }
+    
     
     //check if current step is the autocall date;
     //if so, check whether satisify the callable condition
     for(int j=0; j<autocall_date.size(); j++){
         if(k == autocall_date[j]){
             if(current_stock_price >= initial_stock_price){
-                callstore[k][no_of_divisions+i] = face_value * exp( -risk_free_rate * (double)  autocall_date[j]/no_of_divisions) + dividend + coupon;
+                callstore[k][no_of_divisions+i] = face_value + coupon;
                 return callstore[k][no_of_divisions+i];
             }
         }
@@ -156,20 +187,20 @@ double autocallable_yield_note_binomial(int k, int i, double current_stock_price
     
     if(k == no_of_divisions){
         if(current_stock_price >= 32.78){
-            callstore[k][no_of_divisions+i] = face_value*exp(-risk_free_rate*expiration_time) + dividend + coupon;
+            callstore[k][no_of_divisions+i] = face_value + coupon;
         }else{
-            callstore[k][no_of_divisions+i] = 30.5064*current_stock_price*exp(-risk_free_rate*expiration_time) + dividend + coupon;
+            callstore[k][no_of_divisions+i] = 30.5064*current_stock_price+ coupon;
         }
         return callstore[k][no_of_divisions+i];
     }
     
     callstore[k][no_of_divisions+i] =
-    (uptick_prob * autocallable_yield_note_binomial(k+1,i+1,current_stock_price*up_factor, dividend, coupon)
-     + downtick_prob * autocallable_yield_note_binomial(k+1,i-1,current_stock_price*down_factor, dividend, coupon))/R;
-    
+    (uptick_prob * autocallable_yield_note_binomial(k+1,i+1,current_stock_price*up_factor, coupon)
+     + downtick_prob * autocallable_yield_note_binomial(k+1,i-1,current_stock_price*down_factor, coupon))/R;
     
     return callstore[k][no_of_divisions+i];
 }
+
 
 double autocallable_yield_MC(int no_of_simulations){
     delta_T = (float) expiration_time/12.0;
@@ -217,7 +248,7 @@ double autocallable_yield_MC(int no_of_simulations){
 int main(int argc, const char * argv[]) {
     initialize();
     initial_parameters();
-    double note_price = autocallable_yield_note_binomial(0, 0, initial_stock_price, 0, 0);
+    double note_price = autocallable_yield_note_binomial(0, 0, initial_stock_price, 0);
     cout<<"Value of Autocallable Yield Notes(by binomial tree) is "<<note_price<<endl;
     
     int no_of_simulations = 100000;
