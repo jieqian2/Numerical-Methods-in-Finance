@@ -10,7 +10,8 @@ This file includes the code I've written for the course Numerical Method in fina
 Topic related: 
 * Binomial Tree:
   * Binomial Black-Scholes Method(BBS)
-  * Binomial Black-Scholes Richardson Extrapolation (BBSR)
+  * Binomial Black-Scholes Richardson Extrapolation(BBSR)
+  * Binomial Average Method(BAM)
 * Finite Difference Methods:
   * [Explicit](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/1.1.Explicit%20Finite%20Difference%20Scheme%20for%20Transport%20Equation%20.cpp), 
   * Implicit, 
