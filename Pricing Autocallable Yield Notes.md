@@ -145,33 +145,7 @@ double autocallable_yield_note_binomial(int k, int i, double current_stock_price
         }
     }
     
-    if(k == autocall_date[0]){
-        if(current_stock_price >= initial_stock_price){
-            call_on_first_date++;
-            call_before_maturity++;
-        }else{
-            not_call_on_first_date++;
-            //not_call_before_maturity++;
-        }
-    }
-    if(k == autocall_date[1]){
-        if(current_stock_price >= initial_stock_price){
-            call_on_second_date++;
-            call_before_maturity++;
-        }else{
-            not_call_on_second_date++;
-            //not_call_before_maturity++;
-        }
-    }
-    if(k == autocall_date[2]){
-        if(current_stock_price >= initial_stock_price){
-            call_on_last_date++;
-            call_before_maturity++;
-        }else{
-            not_call_on_last_date++;
-            not_call_before_maturity++;
-        }
-    }
+
     
     
     //check if current step is the autocall date;
