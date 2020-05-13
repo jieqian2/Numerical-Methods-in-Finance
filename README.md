@@ -19,7 +19,9 @@ Topic related:
 
 * Monte Carlo Simulation:
   * [Variance Reduction technique](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/4.1.MC%20simulation%20with%20Contorl%20Variates.ipynb), 
-  * Importance Sampling, 
+    * Importance Sampling, 
+    * Contral Variable,
+    * Antithetic Variable
   * [Sensitivity Analysis](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/5.Sensitivity%20analysis%20in%20Monte%20Carlo%20Simulation.cpp),
   * [Longstaff and Schwartz(Least Squares Monte Carlo)](https://github.com/jieqian2/Numerical-Methods-in-Finance/blob/master/Pricing%20Callable%20Contingent%20Coupon%20Barrier%20Notes.md)
 
